@@ -1,2 +1,2 @@
-# FamilyFunApp2
-Family Fun App
+# Family Fun
+App for families to find activities nearby
