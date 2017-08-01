@@ -1,0 +1,12 @@
+@import url(https://fonts.googleapis.com/css?family=Bitter:400,700|Open+Sans:400,600,700);
+@import 'variables';
+@import 'mixins';
+@import 'header';
+@import 'footer';
+html,
+body {
+    height: 100%;
+    padding: 0;
+    background: #fff;
+    font-family: 'Lato', sans-serif;
+}

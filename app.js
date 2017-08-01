@@ -8,8 +8,8 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var exphbs = require('express-handlebars');
 var passport = require('passport');
+var FacebookStrategy = require('passport-facebook');
 var session = require('express-session');
-
 
 // Sets up the Express App
 // =============================================================
@@ -42,16 +42,31 @@ app.use(passport.session()); // persistent login sessions
 //load passport strategies
 require('./config/passport/passport.js')(passport, db.user);
 
-
 var authRoute = require('./controllers/auth.js')(app, passport);
 
 require('./controllers/burgers_controller.js')(app, passport);
 
+require('./controllers/dashboard_controller.js')(app, passport);
 
+//Facebook strategy
 
+var FACEBOOK_APP_ID = '1380649752032047',
+    FACEBOOK_APP_SECRET = '9327a39e77449aeb5d2fe7717480ce5b';
+passport.use(new FacebookStrategy({
+        clientID: FACEBOOK_APP_ID,
+        clientSecret: FACEBOOK_APP_SECRET,
+        callbackURL: "http://localhost:8080/auth/facebook/callback",
+        profileFields: ['id']
+    },
+    function(accessToken, refreshToken, profile, cb) {
+
+        User.create(req.body).then(function(dbPost) {
+            res.redirect("/");
+        });
+    }
+));
 // Routes
 // =============================================================
-
 // Syncing our sequelize models and then starting our Express app
 // =============================================================
 db.sequelize.sync({ force: false }).then(function() {
