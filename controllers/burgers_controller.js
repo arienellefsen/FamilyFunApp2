@@ -10,15 +10,6 @@ module.exports = function(app) {
         res.redirect('/signin');
     };
 
-    app.get("/", function(req, res) {
-        Burger.findAll({})
-            .then(function(result) {
-                var dbRecordsObject = {
-                    burgers: result
-                };
-                res.render('index', dbRecordsObject);
-            });
-    });
 
     app.get("/id", function(req, res) {
         Burger.findAll({
